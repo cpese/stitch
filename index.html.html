@@ -46,9 +46,7 @@
       color: #333;
       position: relative;
     }
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
     .heart {
       position: fixed;
       bottom: -20px;
@@ -64,38 +62,33 @@
 </head>
 <body>
 
-  <!-- PAGE 1 -->
   <div class="card" id="q1">
     <h1>do you lob me?</h1>
     <button class="yes" onclick="goTo('q2')">Yes</button>
     <button class="no runaway" onmouseover="moveNo(this)">No</button>
   </div>
 
-  <!-- PAGE 2 -->
   <div class="card hidden" id="q2">
     <h1>do you really lob me?</h1>
     <button class="yes" onclick="goTo('q3')">Yes</button>
     <button class="no runaway" onmouseover="moveNo(this)">No</button>
   </div>
 
-  <!-- PAGE 3 -->
   <div class="card hidden" id="q3">
-    <h1>who do you lob more?<br/>Kittan or Polene?</h1>
+    <h1>who do you lob more?<br>Kittan or Polene?</h1>
     <button class="yes" onclick="goTo('q4')">Kittan</button>
-    <button class="no">Polene</button>
+    <button class="no runaway" onmouseover="moveNo(this)">Polene</button>
   </div>
 
-  <!-- PAGE 4 -->
   <div class="card hidden" id="q4">
     <h1>do you want to be my valentine?</h1>
     <button class="yes" onclick="goTo('final')">Yes</button>
     <button class="no runaway" onmouseover="moveNo(this)">No</button>
   </div>
 
-  <!-- FINAL PAGE -->
   <div class="card hidden" id="final">
     <h1>CIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII<br><span style="font-size:18px;">CIIIIIIIIII EPPI EPPI EPPI</span></h1>
-    <div style="position: relative; padding-top: 177.77%; margin-top: 20px; overflow:hidden;">
+    <div style="position: relative; padding-top: 177.77%; margin-top: 20px;">
       <iframe 
         src="https://www.youtube.com/embed/huHUXGg0zBA?mute=1&loop=1&playlist=huHUXGg0zBA"
         style="position:absolute; top:0; left:0; width:100%; height:100%;"
@@ -104,20 +97,22 @@
         allowfullscreen>
       </iframe>
     </div>
-    <div id="hearts"></div>
   </div>
 
   <script>
+    function goTo(id) {
+      document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      if (id === 'final') startHearts();
+    }
+
     function createHeart() {
       const heart = document.createElement('div');
+      heart.className = 'heart';
       heart.innerHTML = '❤️';
-      heart.style.position = 'fixed';
       heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.bottom = '-20px';
       heart.style.fontSize = (20 + Math.random() * 30) + 'px';
-      heart.style.animation = 'floatUp 4s linear forwards';
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 4000);
     }
 
@@ -125,9 +120,12 @@
       setInterval(createHeart, 300);
     }
 
-    function goTo(id) {
-      document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
+    function moveNo(btn) {
+      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+      btn.style.position = 'absolute';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
     }
   </script>
 
